@@ -1,33 +1,33 @@
 ---
 import { ACQUISITION_MAILTO } from "../config/site";
 
-interface Props {
-  ctaEmail: string;
-}
-
-const { ctaEmail } = Astro.props;
+const navLinks = [
+  { href: "#why", label: "Why This Domain" },
+  { href: "#perfect-for", label: "Perfect For" },
+  { href: "#market", label: "Market" },
+  { href: "#inquire", label: "Inquire" }
+];
 ---
 
 <nav class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md">
-  <div class="mx-auto max-w-6xl px-6">
-    <div class="flex h-20 items-center justify-between">
-      <div class="flex items-center gap-x-3">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="flex h-16 items-center justify-between sm:h-20">
+      <a href="#" class="flex items-center gap-x-3">
         <div class="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-900">
           <span class="text-xl font-bold tracking-tighter text-white">SDL</span>
         </div>
-        <div class="text-xl font-semibold tracking-tighter text-slate-900">
+        <div class="text-lg font-semibold tracking-tighter text-slate-900 sm:text-xl">
           sdl<span class="text-amber-700">.</span>rentals
         </div>
-      </div>
+      </a>
 
       <div class="hidden items-center gap-x-8 text-sm font-medium md:flex">
-        <a href="#why" class="nav-link text-slate-600 hover:text-slate-900">Why This Domain</a>
-        <a href="#perfect-for" class="nav-link text-slate-600 hover:text-slate-900">Perfect For</a>
-        <a href="#market" class="nav-link text-slate-600 hover:text-slate-900">Scottsdale Rentals Market</a>
-        <a href="#inquire" class="nav-link text-slate-600 hover:text-slate-900">Inquire</a>
+        {navLinks.map((link) => (
+          <a href={link.href} class="nav-link text-slate-600 hover:text-slate-900">{link.label}</a>
+        ))}
       </div>
 
-      <div class="flex items-center gap-x-3">
+      <div class="flex items-center gap-x-2 sm:gap-x-3">
         <a
           href="https://sdl.contact"
           target="_blank"
@@ -38,11 +38,63 @@ const { ctaEmail } = Astro.props;
         </a>
         <a
           href={ACQUISITION_MAILTO}
-          class="rounded-3xl bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-black active:scale-[0.985]"
+          class="rounded-3xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-black active:scale-[0.985] sm:px-6"
         >
           Make an Offer
         </a>
+        <button
+          type="button"
+          id="mobile-menu-btn"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 text-slate-700 md:hidden"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Open navigation menu"
+        >
+          <svg id="menu-icon-open" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-icon-close" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden border-t border-slate-100 pb-4 md:hidden">
+      <div class="grid gap-1 pt-3">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="mobile-nav-link rounded-2xl px-3 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          >
+            {link.label}
+          </a>
+        ))}
       </div>
     </div>
   </div>
 </nav>
+
+<script>
+  const menuBtn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const openIcon = document.getElementById("menu-icon-open");
+  const closeIcon = document.getElementById("menu-icon-close");
+
+  function setMenuOpen(open: boolean) {
+    menu?.classList.toggle("hidden", !open);
+    menuBtn?.setAttribute("aria-expanded", String(open));
+    menuBtn?.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+    openIcon?.classList.toggle("hidden", open);
+    closeIcon?.classList.toggle("hidden", !open);
+  }
+
+  menuBtn?.addEventListener("click", () => {
+    const isOpen = menuBtn.getAttribute("aria-expanded") === "true";
+    setMenuOpen(!isOpen);
+  });
+
+  document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+</script>

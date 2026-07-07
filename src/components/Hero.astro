@@ -19,11 +19,11 @@ const { image } = Astro.props;
   <div class="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-950/35 to-slate-950/10" aria-hidden="true"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-slate-950/15" aria-hidden="true"></div>
 
-  <div class="relative mx-auto max-w-5xl px-6 pt-8 md:pt-0">
+  <div class="relative mx-auto max-w-5xl px-4 pt-8 sm:px-6 md:pt-0">
     <div class="max-w-3xl">
-      <div class="mb-8 inline-flex items-center gap-x-2 rounded-3xl border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-md">
-        <div class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400"></div>
-        <span class="text-xs font-semibold tracking-[1.5px] text-white/90">
+      <div class="mb-8 inline-flex max-w-full flex-wrap items-center gap-x-2 rounded-3xl border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-md">
+        <div class="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-emerald-400"></div>
+        <span class="text-[10px] font-semibold tracking-[1.2px] text-white/90 sm:text-xs sm:tracking-[1.5px]">
           PREMIUM .RENTALS DOMAIN • SCOTTSDALE, AZ
         </span>
       </div>
@@ -32,28 +32,29 @@ const { image } = Astro.props;
         <span class="domain-name block font-bold tracking-tighter">sdl.rentals</span>
       </h1>
 
-      <p class="mt-4 max-w-xl text-2xl tracking-tight text-white/90">
-        The rare, premium domain that captures<br />all rental properties in Scottsdale, Arizona.
+      <p class="mt-4 max-w-xl text-lg tracking-tight text-white/90 sm:text-xl md:text-2xl">
+        The rare, premium domain that captures<br class="hidden sm:inline" />
+        all rental properties in Scottsdale, Arizona.
       </p>
 
-      <div class="mt-9 flex flex-wrap gap-4">
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
         <a
           href={ACQUISITION_MAILTO}
-          class="rounded-3xl bg-white px-10 py-4 text-base font-semibold text-slate-900 shadow-xl transition hover:bg-amber-50 active:scale-[0.985]"
+          class="inline-flex min-h-11 items-center justify-center rounded-3xl bg-white px-8 py-3.5 text-center text-base font-semibold text-slate-900 shadow-xl transition hover:bg-amber-50 active:scale-[0.985] sm:px-10 sm:py-4"
         >
           Inquire to Purchase
         </a>
         <a
           href="#market"
-          class="rounded-3xl border border-white/30 px-8 py-4 text-base font-semibold text-white transition hover:bg-white/10"
+          class="inline-flex min-h-11 items-center justify-center rounded-3xl border border-white/30 px-6 py-3.5 text-center text-base font-semibold text-white transition hover:bg-white/10 sm:px-8 sm:py-4"
         >
-          Explore the Scottsdale Rentals Market
+          Explore Scottsdale Rentals
         </a>
       </div>
 
-      <div class="mt-8 flex items-center gap-x-6 text-xs text-white/60">
+      <div class="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-white/60 sm:gap-x-6">
         <div>Short • Memorable • Market-Owning</div>
-        <div class="h-3 w-px bg-white/30"></div>
+        <div class="hidden h-3 w-px bg-white/30 sm:block"></div>
         <div>Vacation • Luxury • Long-Term Rentals</div>
       </div>
     </div>

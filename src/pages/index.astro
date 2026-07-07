@@ -14,7 +14,7 @@ import { SITE } from "../config/site";
 const entry = await getEntry("site", "home");
 if (!entry) throw new Error("Missing content entry: site/home");
 
-const { description, ctaEmail, image } = entry.data;
+const { description, image } = entry.data;
 ---
 
 <BaseLayout
@@ -22,7 +22,7 @@ const { description, ctaEmail, image } = entry.data;
   description={description}
   image={image}
 >
-  <Nav ctaEmail={ctaEmail} />
+  <Nav />
   <Hero image={image} />
   <main>
     <WhySection />
