@@ -104,6 +104,9 @@ const structuredData = {
     {keywords && <meta name="keywords" content={keywords} />}
     <meta name="author" content="SDL Domains" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
+    {SITE.googleSiteVerification && (
+      <meta name="google-site-verification" content={SITE.googleSiteVerification} />
+    )}
     <link rel="canonical" href={canonicalURL} />
 
     <meta property="og:type" content="website" />

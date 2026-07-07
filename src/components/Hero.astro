@@ -8,14 +8,16 @@ interface Props {
 const { image } = Astro.props;
 ---
 
-<header class="relative flex min-h-[620px] items-center overflow-hidden bg-slate-950 md:min-h-[680px]">
-  <div
-    class="absolute inset-0 bg-cover bg-center"
-    style={`background-image: url('${image}')`}
-  >
-    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/70"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-950/30"></div>
-  </div>
+<header class="relative flex min-h-[620px] items-center overflow-hidden bg-slate-900 md:min-h-[680px]">
+  <img
+    src={image}
+    alt="Luxury Scottsdale vacation rental property at sunset"
+    class="absolute inset-0 h-full w-full object-cover object-center"
+    fetchpriority="high"
+    decoding="async"
+  />
+  <div class="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-950/35 to-slate-950/10" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-slate-950/15" aria-hidden="true"></div>
 
   <div class="relative mx-auto max-w-5xl px-6 pt-8 md:pt-0">
     <div class="max-w-3xl">

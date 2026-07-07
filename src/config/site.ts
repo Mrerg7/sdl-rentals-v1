@@ -8,7 +8,8 @@ export const SITE = {
   locale: "en_US",
   location: "Scottsdale, Arizona",
   keywords:
-    "SDL.Rentals, Scottsdale rentals domain for sale, vacation rentals Scottsdale domain, luxury home rentals Scottsdale, premium .rentals domain Arizona"
+    "SDL.Rentals, Scottsdale rentals domain for sale, vacation rentals Scottsdale domain, luxury home rentals Scottsdale, premium .rentals domain Arizona",
+  googleSiteVerification: "cciv_c_o-7QJG5jMYq57oXO5M6zV8SMDFZTl-805YTc"
 } as const;
 
 export const CF_IMAGES = {
