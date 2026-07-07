@@ -1,0 +1,135 @@
+---
+import "../styles/global.css";
+import { SITE, OG_IMAGE, ACQUISITION_MAILTO } from "../config/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  keywords?: string;
+}
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  image = OG_IMAGE,
+  keywords = SITE.keywords
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const publishedDate = "2026-07-07";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE.url}#website`,
+      url: SITE.url,
+      name: SITE.name,
+      description,
+      inLanguage: "en-US",
+      potentialAction: {
+        "@type": "CommunicateAction",
+        target: ACQUISITION_MAILTO
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${SITE.url}#webpage`,
+      url: SITE.url,
+      name: title,
+      description,
+      isPartOf: { "@id": `${SITE.url}#website` },
+      datePublished: publishedDate,
+      dateModified: publishedDate,
+      inLanguage: "en-US"
+    },
+    {
+      "@type": "Product",
+      "@id": `${SITE.url}#product`,
+      name: "sdl.rentals Premium Domain Name",
+      description:
+        "The rare, premium .rentals domain perfectly positioned to capture all rental properties in Scottsdale, AZ. Available for acquisition.",
+      url: SITE.url,
+      image: OG_IMAGE,
+      category: "Premium Domain Name",
+      brand: {
+        "@type": "Brand",
+        name: "sdl.rentals"
+      },
+      offers: {
+        "@type": "Offer",
+        url: ACQUISITION_MAILTO,
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        seller: {
+          "@type": "Organization",
+          name: "SDL Domains",
+          email: SITE.email
+        }
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE.url}#organization`,
+      name: "SDL Domains",
+      url: SITE.url,
+      email: SITE.email,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Scottsdale",
+        addressRegion: "AZ",
+        addressCountry: "US"
+      },
+      sameAs: [
+        "https://sdl.contact",
+        "https://sdl.life",
+        "https://sdl.hair"
+      ]
+    }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <meta name="author" content="SDL Domains" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:secure_url" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="sdl.rentals — Premium Domain for Scottsdale AZ Rentals" />
+    <meta property="og:locale" content={SITE.locale} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image:alt" content="sdl.rentals — Premium Domain for Scottsdale AZ Rentals" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={image} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased">
+    <slot />
+  </body>
+</html>

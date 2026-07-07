@@ -1,0 +1,24 @@
+{
+  "name": "sdl-rentals-v1",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.12.8",
+    "tailwindcss": "^4.1.11",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "wrangler": "^4.28.0"
+  }
+}

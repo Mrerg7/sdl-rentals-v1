@@ -1,0 +1,69 @@
+---
+import { ACQUISITION_MAILTO } from "../config/site";
+
+interface Props {
+  image: string;
+}
+
+const { image } = Astro.props;
+---
+
+<header class="relative flex min-h-[620px] items-center overflow-hidden bg-slate-950 md:min-h-[680px]">
+  <div
+    class="absolute inset-0 bg-cover bg-center"
+    style={`background-image: url('${image}')`}
+  >
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-950/30"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-5xl px-6 pt-8 md:pt-0">
+    <div class="max-w-3xl">
+      <div class="mb-8 inline-flex items-center gap-x-2 rounded-3xl border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-md">
+        <div class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400"></div>
+        <span class="text-xs font-semibold tracking-[1.5px] text-white/90">
+          PREMIUM .RENTALS DOMAIN • SCOTTSDALE, AZ
+        </span>
+      </div>
+
+      <h1 class="text-white">
+        <span class="domain-name block font-bold tracking-tighter">sdl.rentals</span>
+      </h1>
+
+      <p class="mt-4 max-w-xl text-2xl tracking-tight text-white/90">
+        The rare, premium domain that captures<br />all rental properties in Scottsdale, Arizona.
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-4">
+        <a
+          href={ACQUISITION_MAILTO}
+          class="rounded-3xl bg-white px-10 py-4 text-base font-semibold text-slate-900 shadow-xl transition hover:bg-amber-50 active:scale-[0.985]"
+        >
+          Inquire to Purchase
+        </a>
+        <a
+          href="#market"
+          class="rounded-3xl border border-white/30 px-8 py-4 text-base font-semibold text-white transition hover:bg-white/10"
+        >
+          Explore the Scottsdale Rentals Market
+        </a>
+      </div>
+
+      <div class="mt-8 flex items-center gap-x-6 text-xs text-white/60">
+        <div>Short • Memorable • Market-Owning</div>
+        <div class="h-3 w-px bg-white/30"></div>
+        <div>Vacation • Luxury • Long-Term Rentals</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="border-b border-slate-200 bg-white">
+  <div class="mx-auto max-w-5xl px-6 py-5">
+    <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-center text-sm md:justify-between md:text-left">
+      <div>Scottsdale: Arizona's premier destination for luxury vacation & rental properties</div>
+      <div class="hidden text-slate-300 md:block">•</div>
+      <div>11M+ annual visitors driving massive rental demand</div>
+    </div>
+  </div>
+</div>

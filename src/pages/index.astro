@@ -1,0 +1,35 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import WhySection from "../components/WhySection.astro";
+import UseCasesSection from "../components/UseCasesSection.astro";
+import MarketSection from "../components/MarketSection.astro";
+import AcquisitionCTA from "../components/AcquisitionCTA.astro";
+import CrossPromo from "../components/CrossPromo.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config/site";
+
+const entry = await getEntry("site", "home");
+if (!entry) throw new Error("Missing content entry: site/home");
+
+const { description, ctaEmail, image } = entry.data;
+---
+
+<BaseLayout
+  title={SITE.title}
+  description={description}
+  image={image}
+>
+  <Nav ctaEmail={ctaEmail} />
+  <Hero image={image} />
+  <main>
+    <WhySection />
+    <UseCasesSection />
+    <MarketSection />
+    <AcquisitionCTA />
+    <CrossPromo />
+  </main>
+  <Footer />
+</BaseLayout>

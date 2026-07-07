@@ -1,0 +1,46 @@
+---
+import { ACQUISITION_MAILTO, SITE } from "../config/site";
+---
+
+<section class="bg-slate-900 py-16" id="inquire">
+  <div class="mx-auto max-w-3xl px-6">
+    <div class="mb-10 text-center">
+      <div class="mb-4 inline rounded-3xl bg-white/10 px-4 py-1 text-xs font-medium tracking-[1.5px] text-white">
+        SERIOUS INQUIRIES ONLY
+      </div>
+      <h2 class="text-4xl font-semibold tracking-tighter text-white md:text-5xl">Ready to own SDL.Rentals?</h2>
+      <p class="mx-auto mt-4 max-w-md text-white/70">
+        Premium vertical domains like this — short, memorable, and perfectly descriptive of a high-demand market —
+        are extremely rare. Submit your inquiry for confidential discussion.
+      </p>
+    </div>
+
+    <div class="rounded-3xl bg-white p-8 shadow-xl md:p-10">
+      <p class="mb-6 text-center text-sm text-slate-600">
+        All acquisition inquiries are routed directly to our domain team. Include your intended use, budget range,
+        and timeline for a prompt, confidential response.
+      </p>
+
+      <a
+        href={ACQUISITION_MAILTO}
+        class="block w-full rounded-3xl bg-slate-900 py-4 text-center text-base font-semibold tracking-wide text-white transition hover:bg-black active:scale-[0.985]"
+      >
+        Inquire About Acquisition
+      </a>
+
+      <div class="mt-6 text-center">
+        <p class="text-xs font-semibold tracking-wider text-slate-500">ACQUISITION CONTACT</p>
+        <a
+          href={`mailto:${SITE.email}`}
+          class="mt-1 inline-block text-lg font-semibold text-amber-700 transition hover:text-amber-800"
+        >
+          {SITE.email}
+        </a>
+      </div>
+
+      <p class="mt-5 text-center text-xs text-slate-400">
+        We typically respond within 24–48 hours. All inquiries are confidential.
+      </p>
+    </div>
+  </div>
+</section>
