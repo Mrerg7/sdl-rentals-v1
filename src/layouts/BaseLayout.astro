@@ -1,6 +1,12 @@
 ---
 import "../styles/global.css";
-import { SITE, OG_IMAGE, ACQUISITION_MAILTO } from "../config/site";
+import {
+  SITE,
+  OG_IMAGE,
+  ACQUISITION_MAILTO,
+  PUBLISHED_DATE,
+  DOMAIN_PRICE
+} from "../config/site";
 
 interface Props {
   title?: string;
@@ -17,7 +23,6 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
-const publishedDate = "2026-07-07";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -41,8 +46,8 @@ const structuredData = {
       name: title,
       description,
       isPartOf: { "@id": `${SITE.url}#website` },
-      datePublished: publishedDate,
-      dateModified: publishedDate,
+      datePublished: PUBLISHED_DATE,
+      dateModified: PUBLISHED_DATE,
       inLanguage: "en-US"
     },
     {
@@ -61,13 +66,42 @@ const structuredData = {
       offers: {
         "@type": "Offer",
         url: ACQUISITION_MAILTO,
-        priceCurrency: "USD",
         availability: "https://schema.org/InStock",
+        price: DOMAIN_PRICE.price,
+        priceCurrency: DOMAIN_PRICE.currency,
+        priceSpecification: {
+          "@type": "PriceSpecification",
+          price: DOMAIN_PRICE.price,
+          minPrice: DOMAIN_PRICE.minPrice,
+          maxPrice: DOMAIN_PRICE.maxPrice,
+          priceCurrency: DOMAIN_PRICE.currency
+        },
         seller: {
           "@type": "Organization",
           name: "SDL Domains",
           email: SITE.email
         }
+      },
+      review: [
+        {
+          "@type": "Review",
+          author: { "@type": "Organization", name: "SDL Domains" },
+          datePublished: PUBLISHED_DATE,
+          reviewBody:
+            "A rare, brandable .rentals domain ideally suited for Scottsdale vacation rentals, luxury home rentals, and property management brands.",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: 5,
+            bestRating: 5
+          }
+        }
+      ],
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: 5,
+        bestRating: 5,
+        reviewCount: 1,
+        ratingCount: 1
       }
     },
     {
