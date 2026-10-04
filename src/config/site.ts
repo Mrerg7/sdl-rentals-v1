@@ -1,14 +1,14 @@
 export const SITE = {
   name: "sdl.rentals",
-  title: "SDL.Rentals | Premium Domain for Scottsdale AZ Rentals • Vacation & Luxury Homes",
+  title: "sdl.rentals | Premium Domain for Sale | SDL Rentals Scottsdale",
   description:
-    "SDL.Rentals — The rare, premium .rentals domain perfectly positioned to capture all rental properties in Scottsdale, AZ. Ideal for vacation rentals, luxury home rentals, property management, or a Scottsdale rental marketplace.",
+    "sdl.rentals for sale — premium .rentals domain for Scottsdale vacation, luxury & long-term rentals. Asking $55k (serious offers from $28k). Secure Escrow.com transfer. Inquire now — 1 of 1 asset.",
   url: "https://sdl.rentals/",
   email: "sales@desertrich.com",
   locale: "en_US",
   location: "Scottsdale, Arizona",
   keywords:
-    "SDL.Rentals, Scottsdale rentals domain for sale, vacation rentals Scottsdale domain, luxury home rentals Scottsdale, premium .rentals domain Arizona",
+    "buy .rentals domains, sdl.rentals for sale, premium domain names, Scottsdale rentals domain, vacation rental domain for sale, luxury rentals domain, investment domains, brandable domains, expired domains, domain marketplace",
   googleSiteVerification: "cciv_c_o-7QJG5jMYq57oXO5M6zV8SMDFZTl-805YTc"
 } as const;
 
@@ -23,7 +23,7 @@ export function cfImageUrl(imageId: string, variant = "public"): string {
 
 export const OG_IMAGE = cfImageUrl(CF_IMAGES.heroImageId);
 
-export const PUBLISHED_DATE = "2026-07-07";
+export const PUBLISHED_DATE = "2026-10-04";
 
 /** Asking price for Product/Offer structured data (USD). */
 export const DOMAIN_PRICE = {
@@ -33,6 +33,6 @@ export const DOMAIN_PRICE = {
   currency: "USD"
 } as const;
 
-export const ACQUISITION_MAILTO = `mailto:${SITE.email}?subject=${encodeURIComponent("SDL.Rentals Domain Acquisition Inquiry")}&body=${encodeURIComponent("Hello,\n\nI am interested in acquiring sdl.rentals.\n\nIntended use:\nBudget range:\n\nThank you.")}`;
+export const ACQUISITION_MAILTO = `mailto:${SITE.email}?subject=${encodeURIComponent("SDL.Rentals Domain Acquisition Inquiry — $55k Asking")}&body=${encodeURIComponent("Hello,\n\nI am interested in acquiring sdl.rentals.\n\nIntended use:\nBudget range:\nTimeline:\n\nThank you.")}`;
 
-export const DISCLAIMER_DATE = "July 7, 2026";
+export const DISCLAIMER_DATE = "October 4, 2026";

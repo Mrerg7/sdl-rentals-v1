@@ -1,128 +1,164 @@
 ---
 import "../styles/global.css";
-import {
-  SITE,
-  OG_IMAGE,
-  ACQUISITION_MAILTO,
-  PUBLISHED_DATE,
-  DOMAIN_PRICE
-} from "../config/site";
 
 interface Props {
-  title?: string;
-  description?: string;
-  image?: string;
+  title: string;
+  description: string;
+  image: string;
+  favicon: string;
   keywords?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
 }
 
 const {
-  title = SITE.title,
-  description = SITE.description,
-  image = OG_IMAGE,
-  keywords = SITE.keywords
+  title,
+  description,
+  image,
+  favicon,
+  keywords,
+  canonicalPath = Astro.url.pathname,
+  noindex = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const site = "https://sdl.rentals";
+const canonicalUrl = new URL(canonicalPath, site).toString();
+const ctaEmail = "sales@desertrich.com";
 
-const structuredData = {
+const organizationSchema = {
   "@context": "https://schema.org",
-  "@graph": [
+  "@type": "Organization",
+  "@id": `${site}/#organization`,
+  name: "SDL Domains",
+  url: site,
+  email: ctaEmail,
+  areaServed: "Scottsdale, Arizona",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Scottsdale",
+    addressRegion: "AZ",
+    addressCountry: "US",
+  },
+  sameAs: [
+    "https://sdl.contact",
+    "https://sdl.life",
+    "https://sdl.hair",
+    "https://phx.beauty",
+    "https://sdldwntwn.com",
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${site}/#website`,
+  name: "sdl.rentals",
+  url: site,
+  description,
+  publisher: { "@id": `${site}/#organization` },
+};
+
+// Product/Offer schema — the core domain-for-sale entity
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "@id": `${site}/#product`,
+  name: "sdl.rentals",
+  description:
+    "Premium .rentals domain for Scottsdale vacation rentals, luxury home rentals, property management & rental marketplaces in Arizona. Available for acquisition via confidential inquiry with secure escrow transfer. Asking $55,000; serious offers from $28,000.",
+  brand: { "@type": "Brand", name: "SDL Domains" },
+  category: "Domain Name > Premium .rentals Domain",
+  image: [image],
+  url: canonicalUrl,
+  review: [
     {
-      "@type": "WebSite",
-      "@id": `${SITE.url}#website`,
-      url: SITE.url,
-      name: SITE.name,
-      description,
-      inLanguage: "en-US",
-      potentialAction: {
-        "@type": "CommunicateAction",
-        target: ACQUISITION_MAILTO
-      }
+      "@type": "Review",
+      author: { "@type": "Organization", name: "SDL Domains" },
+      datePublished: "2026-10-04",
+      reviewBody:
+        "A rare, brandable .rentals domain ideally suited for Scottsdale vacation rentals, luxury home rentals, and property management brands.",
+      reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5 },
+    },
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: 5,
+    bestRating: 5,
+    reviewCount: 1,
+    ratingCount: 1,
+  },
+  offers: {
+    "@type": "Offer",
+    "@id": `${site}/#offer`,
+    url: canonicalUrl,
+    priceCurrency: "USD",
+    price: "55000.00",
+    availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+    seller: { "@id": `${site}/#organization` },
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      priceCurrency: "USD",
+      price: "55000.00",
+      minPrice: 28000,
+      maxPrice: 55000,
+      name: "Asking $55,000 — serious offers from $28,000",
+    },
+  },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Is sdl.rentals for sale?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. sdl.rentals is available for acquisition by serious buyers via confidential inquiry to sales@desertrich.com. Transfer is completed through a licensed escrow service (Escrow.com or equivalent).",
+      },
     },
     {
-      "@type": "WebPage",
-      "@id": `${SITE.url}#webpage`,
-      url: SITE.url,
-      name: title,
-      description,
-      isPartOf: { "@id": `${SITE.url}#website` },
-      datePublished: PUBLISHED_DATE,
-      dateModified: PUBLISHED_DATE,
-      inLanguage: "en-US"
+      "@type": "Question",
+      name: "How much does sdl.rentals cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Asking $55,000; serious offers from $28,000. Submit your intended use and offer for a confidential response within 24–48 hours.",
+      },
     },
     {
-      "@type": "Product",
-      "@id": `${SITE.url}#product`,
-      name: "sdl.rentals Premium Domain Name",
-      description:
-        "The rare, premium .rentals domain perfectly positioned to capture all rental properties in Scottsdale, AZ. Available for acquisition.",
-      url: SITE.url,
-      image: OG_IMAGE,
-      category: "Premium Domain Name",
-      brand: {
-        "@type": "Brand",
-        name: "sdl.rentals"
+      "@type": "Question",
+      name: "How is the domain transferred securely?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "We use Escrow.com (or equivalent licensed escrow) with registrar push, Auth/EPP code, and full transfer. Funds are released only after you confirm control of the domain.",
       },
-      offers: {
-        "@type": "Offer",
-        url: ACQUISITION_MAILTO,
-        availability: "https://schema.org/InStock",
-        price: DOMAIN_PRICE.price,
-        priceCurrency: DOMAIN_PRICE.currency,
-        priceSpecification: {
-          "@type": "PriceSpecification",
-          price: DOMAIN_PRICE.price,
-          minPrice: DOMAIN_PRICE.minPrice,
-          maxPrice: DOMAIN_PRICE.maxPrice,
-          priceCurrency: DOMAIN_PRICE.currency
-        },
-        seller: {
-          "@type": "Organization",
-          name: "SDL Domains",
-          email: SITE.email
-        }
-      },
-      review: [
-        {
-          "@type": "Review",
-          author: { "@type": "Organization", name: "SDL Domains" },
-          datePublished: PUBLISHED_DATE,
-          reviewBody:
-            "A rare, brandable .rentals domain ideally suited for Scottsdale vacation rentals, luxury home rentals, and property management brands.",
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: 5,
-            bestRating: 5
-          }
-        }
-      ],
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: 5,
-        bestRating: 5,
-        reviewCount: 1,
-        ratingCount: 1
-      }
     },
     {
-      "@type": "Organization",
-      "@id": `${SITE.url}#organization`,
-      name: "SDL Domains",
-      url: SITE.url,
-      email: SITE.email,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Scottsdale",
-        addressRegion: "AZ",
-        addressCountry: "US"
+      "@type": "Question",
+      name: "What is sdl.rentals best used for?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Vacation rental platforms, luxury home rental brands, property management firms, Scottsdale rental marketplaces/directories, golf & resort rental specialists, and real-estate investment rental portfolios.",
       },
-      sameAs: [
-        "https://sdl.contact",
-        "https://sdl.life",
-        "https://sdl.hair"
-      ]
-    }
-  ]
+    },
+  ],
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: site + "/" },
+    { "@type": "ListItem", position: 2, name: "FAQ", item: site + "/faq/" },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Domain Valuation Guide",
+      item: site + "/valuation-guide/",
+    },
+  ],
 };
 ---
 
@@ -130,43 +166,63 @@ const structuredData = {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     {keywords && <meta name="keywords" content={keywords} />}
     <meta name="author" content="SDL Domains" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    {SITE.googleSiteVerification && (
-      <meta name="google-site-verification" content={SITE.googleSiteVerification} />
-    )}
-    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content={noindex ? "noindex,nofollow" : "index,follow,max-image-preview:large"} />
+    <meta name="theme-color" content="#020617" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="canonical" href={canonicalUrl} />
 
+    <!-- Performance: preconnect + preload hero (Core Web Vitals <2s) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://imagedelivery.net" crossorigin />
+    <link rel="dns-prefetch" href="https://imagedelivery.net" />
+    <link rel="preload" as="image" href={image} fetchpriority="high" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={image} />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="sdl.rentals" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={image} />
     <meta property="og:image:secure_url" content={image} />
+    <meta property="og:image:alt" content="sdl.rentals — premium domain for Scottsdale AZ rentals" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="sdl.rentals — Premium Domain for Scottsdale AZ Rentals" />
-    <meta property="og:locale" content={SITE.locale} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={image} />
-    <meta name="twitter:image:alt" content="sdl.rentals — Premium Domain for Scottsdale AZ Rentals" />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href={image} />
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <!-- Cloudflare Web Analytics (free, privacy-first). Replace token when available. -->
+    <!-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_TOKEN"}'></script> -->
   </head>
-  <body class="bg-slate-50 text-slate-800 antialiased">
+  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-slate-900"
+    >
+      Skip to content
+    </a>
     <slot />
   </body>
 </html>

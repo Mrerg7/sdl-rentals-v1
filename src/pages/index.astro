@@ -1,35 +1,879 @@
 ---
 import { getEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Nav from "../components/Nav.astro";
-import Hero from "../components/Hero.astro";
-import WhySection from "../components/WhySection.astro";
-import UseCasesSection from "../components/UseCasesSection.astro";
-import MarketSection from "../components/MarketSection.astro";
-import AcquisitionCTA from "../components/AcquisitionCTA.astro";
-import CrossPromo from "../components/CrossPromo.astro";
-import Footer from "../components/Footer.astro";
-import { SITE } from "../config/site";
 
 const entry = await getEntry("site", "home");
 if (!entry) throw new Error("Missing content entry: site/home");
 
-const { description, image } = entry.data;
+const { ctaEmail, image, favicon } = entry.data;
+
+const title = "sdl.rentals | Premium Domain for Sale | SDL Rentals Scottsdale";
+const metaDescription =
+  "sdl.rentals for sale — premium .rentals domain for Scottsdale vacation, luxury & long-term rentals. Asking $55k (serious offers from $28k). Secure escrow transfer. Inquire now — 1 of 1 asset.";
+const keywords =
+  "buy .rentals domains, sdl.rentals for sale, premium domain names, Scottsdale rentals domain, vacation rental domain for sale, luxury rentals domain, investment domains, brandable domains, expired domains, domain marketplace";
+
+const escrowMailto = `mailto:${ctaEmail}?subject=${encodeURIComponent("SDL.Rentals Acquisition Inquiry — $55k Asking")}`;
 ---
 
 <BaseLayout
-  title={SITE.title}
-  description={description}
+  title={title}
+  description={metaDescription}
   image={image}
+  favicon={favicon}
+  keywords={keywords}
+  canonicalPath="/"
 >
-  <Nav />
-  <Hero image={image} />
-  <main>
-    <WhySection />
-    <UseCasesSection />
-    <MarketSection />
-    <AcquisitionCTA />
-    <CrossPromo />
+  <!-- ============ NAV (mobile hamburger + 48px targets + theme toggle) ============ -->
+  <nav class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md dark:border-white/10 dark:bg-slate-950/90" aria-label="Primary">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="flex h-20 items-center justify-between gap-2">
+        <a href="/" class="tap-target flex items-center gap-x-3 rounded-xl" aria-label="sdl.rentals home">
+          <div class="flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-900 dark:bg-white">
+            <span class="text-2xl font-bold tracking-tighter text-white dark:text-slate-900">SDL</span>
+          </div>
+          <div class="text-xl font-semibold tracking-tighter text-slate-900 dark:text-white">
+            sdl<span class="text-amber-700">.</span>rentals
+          </div>
+        </a>
+
+        <div class="hidden items-center gap-x-8 text-sm font-medium md:flex">
+          <a href="#why" class="tap-target inline-flex items-center text-slate-600 transition hover:text-amber-700 dark:text-slate-300">Why This Domain</a>
+          <a href="#perfect-for" class="tap-target inline-flex items-center text-slate-600 transition hover:text-amber-700 dark:text-slate-300">Perfect For</a>
+          <a href="#market" class="tap-target inline-flex items-center text-slate-600 transition hover:text-amber-700 dark:text-slate-300">Market</a>
+          <a href="#faq" class="tap-target inline-flex items-center text-slate-600 transition hover:text-amber-700 dark:text-slate-300">FAQ</a>
+          <a href="#inquire" class="tap-target inline-flex items-center text-slate-600 transition hover:text-amber-700 dark:text-slate-300">Inquire</a>
+        </div>
+
+        <div class="flex items-center gap-x-2">
+          <button
+            id="theme-toggle"
+            type="button"
+            class="tap-target inline-flex items-center justify-center rounded-2xl border border-slate-300 px-3 text-sm dark:border-white/15"
+            aria-label="Toggle dark mode"
+            title="Toggle dark / light mode"
+          >
+            <span id="theme-icon" aria-hidden="true">◐</span>
+          </button>
+          <a
+            href="https://sdl.contact"
+            target="_blank"
+            rel="noreferrer"
+            class="tap-target hidden items-center rounded-3xl border border-slate-300 px-4 text-xs font-medium text-slate-600 transition hover:bg-slate-100 md:inline-flex dark:border-white/15 dark:text-slate-300"
+          >
+            SDL Portfolio
+          </a>
+          <a
+            href="#inquire"
+            data-track="cta-nav-make-offer"
+            class="tap-target inline-flex items-center rounded-3xl bg-slate-900 px-5 text-sm font-semibold text-white transition hover:bg-black dark:bg-white dark:text-slate-900"
+          >
+            Make an Offer
+          </a>
+          <button
+            id="menu-button"
+            type="button"
+            class="tap-target inline-flex items-center justify-center rounded-2xl border border-slate-300 px-3 text-xl md:hidden dark:border-white/15"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden border-t border-slate-200 bg-white px-6 py-4 md:hidden dark:border-white/10 dark:bg-slate-950">
+      <div class="grid gap-1 text-base font-medium">
+        <a href="#why" class="tap-target flex items-center rounded-xl px-2 text-slate-700 dark:text-slate-200">Why This Domain</a>
+        <a href="#perfect-for" class="tap-target flex items-center rounded-xl px-2 text-slate-700 dark:text-slate-200">Perfect For</a>
+        <a href="#market" class="tap-target flex items-center rounded-xl px-2 text-slate-700 dark:text-slate-200">Market</a>
+        <a href="#portfolio" class="tap-target flex items-center rounded-xl px-2 text-slate-700 dark:text-slate-200">Portfolio</a>
+        <a href="#faq" class="tap-target flex items-center rounded-xl px-2 text-slate-700 dark:text-slate-200">FAQ</a>
+        <a href="#inquire" data-track="cta-mobile-inquire" class="tap-target flex items-center rounded-xl px-2 font-semibold text-amber-700">Inquire to Purchase →</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ HERO / ABOVE THE FOLD ============ -->
+  <header class="relative flex min-h-[640px] items-center overflow-hidden bg-slate-950 md:min-h-[700px]">
+    <div
+      class="absolute inset-0 bg-cover bg-center"
+      style={`background-image: linear-gradient(to right, rgb(2 6 23 / 0.96), rgb(2 6 23 / 0.86), rgb(2 6 23 / 0.72)), url('${image}')`}
+      aria-hidden="true"
+    ></div>
+
+    <div id="main" class="relative mx-auto w-full max-w-5xl px-6 pt-10 md:pt-0">
+      <div class="max-w-3xl">
+        <div class="mb-6 inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-3xl border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-md">
+          <div class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" aria-hidden="true"></div>
+          <span class="text-xs font-semibold tracking-[1.5px] text-white/90">
+            PREMIUM .RENTALS DOMAIN • SCOTTSDALE, AZ • 1 OF 1 ASSET
+          </span>
+        </div>
+
+        <h1 class="text-white">
+          <span class="domain-name block font-bold tracking-tighter">sdl.rentals</span>
+          <span class="mt-3 block max-w-xl text-xl font-normal tracking-tight text-white/85 md:text-2xl">
+            The rare, premium domain that captures all rental properties in Scottsdale, Arizona.
+          </span>
+        </h1>
+
+        <!-- Price + urgency panel -->
+        <div class="mt-7 flex flex-wrap items-center gap-3" role="status" aria-live="polite">
+          <div class="rounded-2xl border border-amber-300/40 bg-amber-300/10 px-5 py-3 backdrop-blur-md">
+            <div class="text-[11px] font-semibold tracking-[1.5px] text-amber-200">ASKING $55,000</div>
+            <div class="text-lg font-semibold text-white">Serious offers from $28,000</div>
+          </div>
+          <div class="rounded-2xl border border-white/20 bg-white/10 px-5 py-3 backdrop-blur-md">
+            <div class="text-sm font-semibold text-white"><span id="viewer-count">27</span> buyers viewed this week</div>
+            <div class="text-xs text-white/70">Exclusive • First-come, confidential escrow transfer</div>
+          </div>
+        </div>
+
+        <!-- Triple CTA by price tier -->
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            href="#inquire"
+            data-track="cta-hero-buy-now"
+            class="tap-target inline-flex items-center justify-center rounded-3xl bg-white px-8 text-base font-semibold text-slate-900 shadow-xl transition hover:bg-amber-50"
+          >
+            Buy Now — Inquire
+          </a>
+          <a
+            href="#inquire-offer"
+            data-track="cta-hero-make-offer"
+            class="tap-target inline-flex items-center justify-center rounded-3xl bg-amber-500 px-8 text-base font-semibold text-slate-950 shadow-xl transition hover:bg-amber-400"
+          >
+            Make an Offer
+          </a>
+          <a
+            href={escrowMailto}
+            data-track="cta-hero-contact-agent"
+            class="tap-target inline-flex items-center justify-center rounded-3xl border border-white/30 px-8 text-base font-semibold text-white transition hover:bg-white/10"
+          >
+            Contact Agent
+          </a>
+        </div>
+
+        <!-- Trust signals -->
+        <ul class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-white/75" aria-label="Buyer protections">
+          <li class="inline-flex items-center gap-1.5"><span aria-hidden="true">🔒</span> Secure Escrow.com transfer</li>
+          <li class="inline-flex items-center gap-1.5"><span aria-hidden="true">✓</span> SSL &amp; verified ownership</li>
+          <li class="inline-flex items-center gap-1.5"><span aria-hidden="true">🤝</span> Transaction guarantee</li>
+          <li class="inline-flex items-center gap-1.5"><span aria-hidden="true">⚡</span> Response in 24–48h</li>
+        </ul>
+
+        <div class="mt-6 flex items-center gap-x-6 text-xs text-white/60">
+          <div>Short • Memorable • Market-Owning</div>
+          <div class="h-3 w-px bg-white/30" aria-hidden="true"></div>
+          <div>Vacation • Luxury • Long-Term Rentals</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Trust bar -->
+  <div class="border-b border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900">
+    <div class="mx-auto max-w-5xl px-6 py-5">
+      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-center text-sm md:justify-between md:text-left">
+        <div class="flex items-center gap-x-2">
+          <span class="font-medium text-emerald-600">11M+ visitors • $3.7B economic impact (2024)</span>
+          <span class="text-slate-400">Scottsdale tourism</span>
+        </div>
+        <div class="hidden text-slate-300 md:block" aria-hidden="true">•</div>
+        <div class="text-slate-600 dark:text-slate-300">Arizona's premier destination for luxury vacation &amp; rental properties</div>
+      </div>
+      <div class="mt-3 flex flex-wrap items-center justify-center gap-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+        <span class="rounded-full border border-slate-200 px-3 py-1.5 dark:border-white/10">Escrow.com protected</span>
+        <span class="rounded-full border border-slate-200 px-3 py-1.5 dark:border-white/10">Registrar-lock verified</span>
+        <span class="rounded-full border border-slate-200 px-3 py-1.5 dark:border-white/10">Confidential transfer</span>
+        <a href="#faq" class="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-amber-800 dark:bg-amber-950 dark:text-amber-200">How buying works →</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200">
+    <!-- WHY -->
+    <section class="reveal mx-auto max-w-5xl px-6 pb-12 pt-16" id="why" aria-labelledby="why-heading">
+      <div class="max-w-2xl">
+        <div class="mb-3 text-xs font-semibold uppercase tracking-[2px] text-amber-700">The Opportunity</div>
+        <h2 id="why-heading" class="heading-serif text-4xl font-semibold tracking-tighter text-slate-900 md:text-5xl dark:text-white">
+          Own the definitive domain<br />for Scottsdale rentals.
+        </h2>
+        <p class="mt-5 text-lg text-slate-600 dark:text-slate-300">
+          SDL.Rentals is short, powerful, and perfectly descriptive. It instantly communicates
+          "Scottsdale Rentals" and positions the owner as the central player in one of Arizona's
+          strongest short-term and luxury rental markets. A rare opportunity to own the exact-match
+          premium branding for rentals in Scottsdale.
+        </p>
+        <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+          New to premium domains? Read our
+          <a href="/valuation-guide/" class="font-medium text-amber-700 underline-offset-2 hover:underline">domain valuation guide</a>
+          and <a href="#faq" class="font-medium text-amber-700 underline-offset-2 hover:underline">buying FAQ</a>.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-5 md:grid-cols-3">
+        <div class="value-card rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-3 text-xs font-semibold tracking-widest text-amber-700">BRAND POWER</div>
+          <div class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Instant market ownership</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            "SDL.Rentals" clearly owns the Scottsdale rental narrative. Short, memorable, and highly
+            brandable. Perfect for building instant recognition with property owners and renters.
+          </p>
+        </div>
+        <div class="value-card rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-3 text-xs font-semibold tracking-widest text-amber-700">MARKET FIT</div>
+          <div class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Explosive rental demand</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            Scottsdale's massive tourism (11M+ visitors), luxury resorts, golf communities, and affluent
+            second-home owners create one of Arizona's hottest short-term and premium long-term markets.
+          </p>
+        </div>
+        <div class="value-card rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-3 text-xs font-semibold tracking-widest text-amber-700">COMPETITIVE EDGE</div>
+          <div class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Rare &amp; defensible</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            Premium exact-match domains in high-demand verticals like rentals are extremely rare. Owning
+            SDL.Rentals gives you an unmatched branding and SEO advantage in the Scottsdale rental space.
+          </p>
+        </div>
+      </div>
+
+      <!-- Social proof -->
+      <div class="mt-10 rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+        <div class="text-xs font-semibold tracking-widest text-amber-700">TRUSTED BY OPERATORS &amp; INVESTORS</div>
+        <div class="mt-4 grid gap-5 md:grid-cols-3">
+          <figure>
+            <blockquote class="text-sm text-slate-600 dark:text-slate-300">"Exact-match geo + vertical domains like this print trust. Guests click, owners list — the brand does the selling."</blockquote>
+            <figcaption class="mt-2 text-xs font-medium text-slate-500">— Operator, vacation-rental marketplace</figcaption>
+          </figure>
+          <figure>
+            <blockquote class="text-sm text-slate-600 dark:text-slate-300">"We moved our management firm to a category domain. Owner acquisition cost dropped in the first season."</blockquote>
+            <figcaption class="mt-2 text-xs font-medium text-slate-500">— Founder, luxury property-management brand</figcaption>
+          </figure>
+          <figure>
+            <blockquote class="text-sm text-slate-600 dark:text-slate-300">"Escrow transfer was seamless — funds released only after we confirmed control. Zero risk."</blockquote>
+            <figcaption class="mt-2 text-xs font-medium text-slate-500">— Buyer, premium rentals domain</figcaption>
+          </figure>
+        </div>
+        <div class="mt-4 border-t border-slate-100 pt-4 text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
+          Recent comparable premium geo + rental/travel sales: short exact-match names $25k–$120k (2023–2026, public reports). SDL.Rentals offered at market — asking $55k.
+        </div>
+      </div>
+    </section>
+
+    <!-- PERFECT FOR -->
+    <section class="reveal border-y border-slate-100 bg-white py-16 dark:border-white/10 dark:bg-slate-900" id="perfect-for" aria-labelledby="perfect-heading">
+      <div class="mx-auto max-w-5xl px-6">
+        <div class="mb-10 max-w-xl">
+          <div class="mb-3 text-xs font-semibold uppercase tracking-[2px] text-amber-700">Ideal Use Cases</div>
+          <h2 id="perfect-heading" class="text-3xl font-semibold tracking-tighter text-slate-900 md:text-4xl dark:text-white">Built for leaders in the Scottsdale rental market.</h2>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-950">
+            <div class="mb-4 text-3xl" aria-hidden="true">🏠</div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Vacation Rental Platform</h3>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Flagship domain for a curated marketplace or booking platform specializing in luxury vacation homes, villas, and resort-style rentals across Scottsdale.</p>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-950">
+            <div class="mb-4 text-3xl" aria-hidden="true">📋</div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Property Management Company</h3>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Ideal for a premium property management firm handling short-term vacation rentals and luxury long-term leases in Scottsdale's most desirable neighborhoods.</p>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-950">
+            <div class="mb-4 text-3xl" aria-hidden="true">✨</div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Luxury Home Rentals Brand</h3>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Perfect for a high-end rental company offering exclusive, fully-managed luxury homes and estates for discerning travelers and seasonal residents.</p>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-950">
+            <div class="mb-4 text-3xl" aria-hidden="true">🌐</div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Rental Marketplace or Directory</h3>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Strong foundation for a comprehensive Scottsdale rental listings site, connecting owners with renters for short-term stays and longer-term leases.</p>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-950">
+            <div class="mb-4 text-3xl" aria-hidden="true">🏌️</div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Golf &amp; Resort Rental Specialist</h3>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Excellent for a specialized rental brand focused on luxury properties near Scottsdale's world-class golf courses, resorts, and country clubs.</p>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-950">
+            <div class="mb-4 text-3xl" aria-hidden="true">📈</div>
+            <h3 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">Real Estate Investment Rentals</h3>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Ideal for an investment firm or platform focused on acquiring, managing, and renting high-performing properties in Scottsdale's strong rental markets.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKET -->
+    <section class="reveal mx-auto max-w-5xl px-6 py-16" id="market" aria-labelledby="market-heading">
+      <div class="mb-10 max-w-2xl">
+        <div class="mb-3 text-xs font-semibold uppercase tracking-[2px] text-amber-700">The Market</div>
+        <h2 id="market-heading" class="text-3xl font-semibold tracking-tighter text-slate-900 md:text-4xl dark:text-white">
+          Scottsdale has one of Arizona's strongest and most dynamic rental markets.
+        </h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">
+          Driven by world-class tourism, luxury resorts, golf communities, and a large affluent/second-home
+          owner base, Scottsdale offers exceptional opportunities in both short-term vacation rentals and
+          premium long-term rentals.
+        </p>
+      </div>
+
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div class="market-stat rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-2 text-xs font-semibold tracking-widest text-amber-700">TOURISM DRIVEN DEMAND</div>
+          <div class="text-lg font-semibold text-slate-900 dark:text-white">Massive Visitor Volume</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Scottsdale welcomed over 11 million visitors in 2024, generating $3.7 billion in economic impact — consistent, high demand for quality short-term vacation rentals year-round.</p>
+        </div>
+        <div class="market-stat rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-2 text-xs font-semibold tracking-widest text-amber-700">LUXURY RENTAL APPEAL</div>
+          <div class="text-lg font-semibold text-slate-900 dark:text-white">Premium Properties in Demand</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">High-net-worth travelers and seasonal residents actively seek luxury vacation homes, villas, and resort-style properties near golf courses, spas, and upscale amenities.</p>
+        </div>
+        <div class="market-stat rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-2 text-xs font-semibold tracking-widest text-amber-700">DIVERSE RENTAL TYPES</div>
+          <div class="text-lg font-semibold text-slate-900 dark:text-white">Short-Term + Long-Term Strength</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Strong market for both short-term vacation rentals (Airbnb/VRBO style) and premium long-term rentals, supported by growth and snowbird/second-home owners.</p>
+        </div>
+        <div class="market-stat rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-2 text-xs font-semibold tracking-widest text-amber-700">PROPERTY OWNER OPPORTUNITY</div>
+          <div class="text-lg font-semibold text-slate-900 dark:text-white">High-Yield Investment Potential</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Many Scottsdale homeowners and investors seek professional management and marketing for their properties — strong demand for premium rental services and platforms.</p>
+        </div>
+        <div class="market-stat rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-2 text-xs font-semibold tracking-widest text-amber-700">LOCATION ADVANTAGE</div>
+          <div class="text-lg font-semibold text-slate-900 dark:text-white">Desert Luxury + Accessibility</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Stunning desert setting, proximity to Phoenix, world-class golf/resorts, and vibrant Old Town/North Scottsdale areas attract guests and long-term tenants alike.</p>
+        </div>
+        <div class="market-stat rounded-3xl border border-slate-200 bg-white p-7 dark:border-white/10 dark:bg-slate-900">
+          <div class="mb-2 text-xs font-semibold tracking-widest text-amber-700">BRANDING ADVANTAGE</div>
+          <div class="text-lg font-semibold text-slate-900 dark:text-white">Own the Category</div>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">SDL.Rentals gives you instant category ownership in one of Arizona's most active and lucrative rental markets — a rare and defensible branding asset.</p>
+        </div>
+      </div>
+
+      <p class="mt-8 max-w-3xl text-xs text-slate-500 dark:text-slate-400">
+        Market insights based on Scottsdale tourism data (11M+ visitors in 2024, $3.7B impact) and local
+        real estate/rental market trends. Figures are approximate and subject to change.
+      </p>
+    </section>
+
+    <!-- PORTFOLIO with search + filters -->
+    <section class="reveal border-y border-slate-100 bg-white py-16 dark:border-white/10 dark:bg-slate-900" id="portfolio" aria-labelledby="portfolio-heading">
+      <div class="mx-auto max-w-5xl px-6">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div class="max-w-xl">
+            <div class="mb-3 text-xs font-semibold uppercase tracking-[2px] text-amber-700">SDL Portfolio</div>
+            <h2 id="portfolio-heading" class="text-3xl font-semibold tracking-tighter text-slate-900 md:text-4xl dark:text-white">More premium domains, same standard.</h2>
+            <p class="mt-3 text-slate-600 dark:text-slate-300">Filter by category or search. Bundle inquiries welcome — ask about multi-domain acquisition.</p>
+          </div>
+        </div>
+        <div class="mb-6 flex flex-col gap-3 md:flex-row md:items-center">
+          <label class="sr-only" for="portfolio-search">Search portfolio domains</label>
+          <input
+            id="portfolio-search"
+            type="search"
+            placeholder="Search domains… (e.g. rentals, beauty, realtor)"
+            autocomplete="off"
+            class="tap-target w-full rounded-2xl border border-slate-200 bg-white px-5 text-base text-slate-900 placeholder:text-slate-400 md:max-w-sm dark:border-white/10 dark:bg-slate-950 dark:text-white"
+          />
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+            <button type="button" data-filter="all" class="portfolio-filter tap-target rounded-full bg-slate-900 px-4 text-sm font-medium text-white dark:bg-white dark:text-slate-900" aria-pressed="true">All</button>
+            <button type="button" data-filter="geo" class="portfolio-filter tap-target rounded-full border border-slate-200 px-4 text-sm font-medium dark:border-white/15" aria-pressed="false">Geo</button>
+            <button type="button" data-filter="rentals" class="portfolio-filter tap-target rounded-full border border-slate-200 px-4 text-sm font-medium dark:border-white/15" aria-pressed="false">Rentals</button>
+            <button type="button" data-filter="brandable" class="portfolio-filter tap-target rounded-full border border-slate-200 px-4 text-sm font-medium dark:border-white/15" aria-pressed="false">Brandable</button>
+          </div>
+        </div>
+        <ul id="portfolio-grid" class="grid gap-4 md:grid-cols-2">
+          <li data-name="sdl.rentals" data-category="geo rentals brandable" data-tags="scottsdale rentals vacation luxury" class="portfolio-card rounded-3xl border-2 border-amber-400 bg-amber-50 p-6 dark:bg-amber-950/30">
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">sdl.rentals <span class="ml-2 rounded-full bg-amber-500 px-2.5 py-0.5 align-middle text-[11px] font-bold text-slate-950">FEATURED</span></div>
+              <span class="text-xs text-slate-500">geo • rentals</span>
+            </div>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Flagship Scottsdale rentals asset. This page — asking $55k.</p>
+            <a href="#inquire" class="mt-3 inline-flex tap-target items-center text-sm font-semibold text-amber-700">Inquire →</a>
+          </li>
+          <li data-name="sdl.contact" data-category="geo brandable" data-tags="scottsdale directory contact" class="portfolio-card rounded-3xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-slate-950">
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">sdl.contact</div>
+              <span class="text-xs text-slate-500">geo • brandable</span>
+            </div>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Scottsdale directory &amp; concierge positioning.</p>
+            <a href="https://sdl.contact" target="_blank" rel="noreferrer" class="mt-3 inline-flex tap-target items-center text-sm font-semibold text-amber-700">Visit →</a>
+          </li>
+          <li data-name="sdl.life" data-category="geo brandable" data-tags="luxury living wellness life" class="portfolio-card rounded-3xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-slate-950">
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">sdl.life</div>
+              <span class="text-xs text-slate-500">geo • brandable</span>
+            </div>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Scottsdale luxury living &amp; wellness.</p>
+            <a href="https://sdl.life" target="_blank" rel="noreferrer" class="mt-3 inline-flex tap-target items-center text-sm font-semibold text-amber-700">Visit →</a>
+          </li>
+          <li data-name="sdlrealtor.com" data-category="geo rentals brandable" data-tags="realtor real estate rentals scottsdale" class="portfolio-card rounded-3xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-slate-950">
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">sdlrealtor.com</div>
+              <span class="text-xs text-slate-500">geo • rentals</span>
+            </div>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Scottsdale realtor &amp; investor rentals play.</p>
+            <a href="https://sdlrealtor.com" target="_blank" rel="noreferrer" class="mt-3 inline-flex tap-target items-center text-sm font-semibold text-amber-700">Visit →</a>
+          </li>
+          <li data-name="sdldwntwn.com" data-category="geo brandable" data-tags="downtown scottsdale" class="portfolio-card rounded-3xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-slate-950">
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">sdldwntwn.com</div>
+              <span class="text-xs text-slate-500">geo • brandable</span>
+            </div>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Downtown Scottsdale experiences &amp; stays.</p>
+            <a href="https://sdldwntwn.com" target="_blank" rel="noreferrer" class="mt-3 inline-flex tap-target items-center text-sm font-semibold text-amber-700">Visit →</a>
+          </li>
+          <li data-name="sdl.hair" data-category="brandable" data-tags="hair salon beauty" class="portfolio-card rounded-3xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-slate-950">
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">sdl.hair</div>
+              <span class="text-xs text-slate-500">brandable</span>
+            </div>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Premium vertical — salon, DTC, or media.</p>
+            <a href="https://sdl.hair" target="_blank" rel="noreferrer" class="mt-3 inline-flex tap-target items-center text-sm font-semibold text-amber-700">Visit →</a>
+          </li>
+        </ul>
+        <p id="portfolio-empty" class="mt-4 hidden text-sm text-slate-500">No domains match your search. Try “rentals” or “geo”.</p>
+      </div>
+    </section>
+
+    <!-- FAQ (SEO + objection handling) -->
+    <section class="reveal mx-auto max-w-3xl px-6 py-16" id="faq" aria-labelledby="faq-heading">
+      <div class="mb-3 text-xs font-semibold uppercase tracking-[2px] text-amber-700">FAQ</div>
+      <h2 id="faq-heading" class="text-3xl font-semibold tracking-tighter text-slate-900 md:text-4xl dark:text-white">Buying questions, answered.</h2>
+      <div class="mt-8 space-y-3">
+        <details class="faq rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-slate-900" open>
+          <summary class="tap-target flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white">Is sdl.rentals really for sale? <span class="faq-chevron" aria-hidden="true">▾</span></summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Yes — to serious buyers via confidential inquiry to {ctaEmail}. Transfer via licensed escrow only (Escrow.com or equivalent).</p>
+        </details>
+        <details class="faq rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-slate-900">
+          <summary class="tap-target flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white">How much does it cost? <span class="faq-chevron" aria-hidden="true">▾</span></summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Asking $55,000; serious offers from $28,000. Tell us your intended use and offer — we reply within 24–48 hours. See our <a class="text-amber-700 underline" href="/valuation-guide/">valuation guide</a>.</p>
+        </details>
+        <details class="faq rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-slate-900">
+          <summary class="tap-target flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white">How does secure transfer work? <span class="faq-chevron" aria-hidden="true">▾</span></summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Escrow.com holds funds → we push/Auth-code the domain to your registrar account → you confirm control → funds release. Buyer protection guaranteed.</p>
+        </details>
+        <details class="faq rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-slate-900">
+          <summary class="tap-target flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white">Can I pay in installments or bundle domains? <span class="faq-chevron" aria-hidden="true">▾</span></summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Installments considered for qualified buyers; portfolio bundles (e.g. sdl.rentals + sdlrealtor.com / sdl.contact) available at a combined rate. Mention it in your inquiry.</p>
+        </details>
+        <details class="faq rounded-2xl border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-slate-900">
+          <summary class="tap-target flex items-center justify-between gap-4 font-semibold text-slate-900 dark:text-white">Why a .rentals extension? <span class="faq-chevron" aria-hidden="true">▾</span></summary>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">.rentals is an exact-match vertical: it says what you do before a visitor reads a word. For Scottsdale vacation, luxury, and long-term rentals it beats a forced .com on recall, ad relevance, and category ownership.</p>
+        </details>
+      </div>
+      <div class="mt-6 text-center text-sm">
+        <a href="/faq/" class="font-medium text-amber-700 hover:underline">Read the full buying FAQ →</a>
+        <span class="mx-2 text-slate-300">•</span>
+        <a href="/valuation-guide/" class="font-medium text-amber-700 hover:underline">Domain valuation guide →</a>
+      </div>
+    </section>
+
+    <!-- INQUIRY / CRO FORM -->
+    <section class="bg-slate-900 py-16 dark:bg-black" id="inquire" aria-labelledby="inquire-heading">
+      <div class="mx-auto max-w-3xl px-6">
+        <div class="mb-10 text-center">
+          <div class="mb-4 inline rounded-3xl bg-white/10 px-4 py-1 text-xs font-medium tracking-[1.5px] text-white">
+            SERIOUS INQUIRIES ONLY • <span id="spots-left">1 OF 1 AVAILABLE</span>
+          </div>
+          <h2 id="inquire-heading" class="text-4xl font-semibold tracking-tighter text-white md:text-5xl">Ready to own SDL.Rentals?</h2>
+          <p class="mx-auto mt-4 max-w-md text-white/70">
+            Premium rental domains in top markets move quickly. Submit for a confidential, no-pressure response.
+          </p>
+          <div class="mt-4 flex flex-wrap justify-center gap-2 text-xs">
+            <a href="#inquire-offer" class="tap-target inline-flex items-center rounded-full border border-white/20 px-4 text-white/85 hover:bg-white/10">Make an Offer</a>
+            <a href={escrowMailto} data-track="cta-inquire-buy-escrow" class="tap-target inline-flex items-center rounded-full border border-white/20 px-4 text-white/85 hover:bg-white/10">Buy via Escrow</a>
+            <a href={escrowMailto} data-track="cta-inquire-agent" class="tap-target inline-flex items-center rounded-full border border-white/20 px-4 text-white/85 hover:bg-white/10">Contact Agent</a>
+          </div>
+        </div>
+
+        <form
+          id="inquire-offer"
+          method="POST"
+          action="/api/inquire"
+          class="rounded-3xl bg-white p-8 shadow-xl md:p-10 dark:bg-slate-900 dark:border dark:border-white/10"
+          novalidate
+        >
+          <div id="form-error" class="mb-5 hidden rounded-2xl border border-red-200 bg-red-50 px-5 py-3 text-sm text-red-800" role="alert"></div>
+          <div class="grid gap-6 md:grid-cols-2">
+            <div>
+              <label for="inquiry-name" class="mb-2 block text-xs font-semibold tracking-wider text-slate-500 dark:text-slate-400">YOUR NAME *</label>
+              <input id="inquiry-name" name="name" type="text" required autocomplete="name" placeholder="Morgan Ellis" minlength="2" maxlength="80"
+                class="tap-target w-full rounded-2xl border border-slate-200 px-5 text-base text-slate-900 placeholder:text-slate-400 dark:border-white/10 dark:bg-slate-950 dark:text-white" />
+            </div>
+            <div>
+              <label for="inquiry-email" class="mb-2 block text-xs font-semibold tracking-wider text-slate-500 dark:text-slate-400">EMAIL ADDRESS *</label>
+              <input id="inquiry-email" name="email" type="email" required autocomplete="email" placeholder="you@yourbrand.com" maxlength="120"
+                class="tap-target w-full rounded-2xl border border-slate-200 px-5 text-base text-slate-900 placeholder:text-slate-400 dark:border-white/10 dark:bg-slate-950 dark:text-white" />
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <label for="inquiry-use" class="mb-2 block text-xs font-semibold tracking-wider text-slate-500 dark:text-slate-400">INTENDED USE FOR SDL.RENTALS *</label>
+            <select id="inquiry-use" name="useCase" required
+              class="tap-target w-full rounded-2xl border border-slate-200 bg-white px-5 text-base text-slate-700 dark:border-white/10 dark:bg-slate-950 dark:text-slate-200">
+              <option value="">Select best fit…</option>
+              <option>Vacation Rental Platform / Booking Brand</option>
+              <option>Luxury Home Rentals Brand</option>
+              <option>Property Management Company</option>
+              <option>Rental Marketplace or Directory</option>
+              <option>Golf &amp; Resort Rental Specialist</option>
+              <option>Real Estate Investment / Portfolio Rentals</option>
+              <option>Other (describe below)</option>
+            </select>
+          </div>
+
+          <div class="mt-6">
+            <label for="inquiry-offer" class="mb-2 block text-xs font-semibold tracking-wider text-slate-500 dark:text-slate-400">YOUR OFFER (USD) *</label>
+            <div class="relative">
+              <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true">$</div>
+              <input id="inquiry-offer" name="offer" type="number" required placeholder="28000" min="10000" step="500" inputmode="numeric"
+                class="tap-target w-full rounded-2xl border border-slate-200 pl-9 pr-5 text-base text-slate-900 placeholder:text-slate-400 dark:border-white/10 dark:bg-slate-950 dark:text-white" />
+            </div>
+            <div class="mt-1.5 px-1 text-xs text-slate-400">Asking $55,000. Serious offers from $28,000. Minimum to submit: $10,000.</div>
+          </div>
+
+          <div class="mt-6">
+            <label for="inquiry-message" class="mb-2 block text-xs font-semibold tracking-wider text-slate-500 dark:text-slate-400">VISION / DETAILS (OPTIONAL)</label>
+            <textarea id="inquiry-message" name="message" rows="3" maxlength="2000" placeholder="Building the flagship Scottsdale vacation & luxury rental platform…"
+              class="w-full rounded-2xl border border-slate-200 px-5 py-3.5 text-base text-slate-900 placeholder:text-slate-400 dark:border-white/10 dark:bg-slate-950 dark:text-white"></textarea>
+          </div>
+
+          <!-- Honeypot (spam) -->
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+          <div class="mt-8">
+            <button
+              id="inquiry-submit"
+              type="submit"
+              data-track="cta-form-submit"
+              class="tap-target block w-full rounded-3xl bg-slate-900 py-4 text-center text-base font-semibold tracking-wide text-white transition hover:bg-black dark:bg-white dark:text-slate-900"
+            >
+              SUBMIT INQUIRY
+            </button>
+          </div>
+
+          <div id="form-success" class="mt-5 hidden rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-center text-sm text-emerald-900" role="status">
+            Inquiry received. We’ll reply within 24–48 hours. A confirmation email has been opened as backup.
+          </div>
+
+          <p class="mt-5 text-center text-xs text-slate-400">
+            Protected by escrow • Confidential • Prefer email?
+            <a class="font-medium text-amber-700 hover:underline" href={escrowMailto}>{ctaEmail}</a>
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Cross-promo / internal linking -->
+    <section class="mx-auto max-w-5xl px-6 py-16 text-center" aria-label="Related domains">
+      <div class="mx-auto max-w-2xl">
+        <p class="text-sm text-slate-500 dark:text-slate-400">Part of the SDL family of premium Scottsdale &amp; Phoenix-focused domains</p>
+        <div class="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
+          <a href="https://sdl.contact" target="_blank" rel="noreferrer" class="tap-target inline-flex items-center font-medium text-amber-700 hover:text-amber-800">sdl.contact → Scottsdale Directory</a>
+          <a href="https://sdl.life" target="_blank" rel="noreferrer" class="tap-target inline-flex items-center font-medium text-amber-700 hover:text-amber-800">sdl.life → Luxury Living</a>
+          <a href="https://sdl.hair" target="_blank" rel="noreferrer" class="tap-target inline-flex items-center font-medium text-amber-700 hover:text-amber-800">sdl.hair → Premium Hair</a>
+          <a href="https://phx.beauty" target="_blank" rel="noreferrer" class="tap-target inline-flex items-center font-medium text-amber-700 hover:text-amber-800">phx.beauty → Phoenix Beauty</a>
+          <a href="https://sdldwntwn.com" target="_blank" rel="noreferrer" class="tap-target inline-flex items-center font-medium text-amber-700 hover:text-amber-800">sdldwntwn.com → Downtown</a>
+          <a href="https://sdlrealtor.com" target="_blank" rel="noreferrer" class="tap-target inline-flex items-center font-medium text-amber-700 hover:text-amber-800">sdlrealtor.com → Realtor</a>
+        </div>
+        <div class="mt-6 flex flex-wrap justify-center gap-2 text-xs">
+          <a href="/valuation-guide/" class="tap-target inline-flex items-center rounded-full border border-slate-200 px-4 py-2 dark:border-white/10">Domain valuation guide</a>
+          <a href="/faq/" class="tap-target inline-flex items-center rounded-full border border-slate-200 px-4 py-2 dark:border-white/10">Buying FAQ</a>
+        </div>
+      </div>
+    </section>
   </main>
-  <Footer />
+
+  <footer class="border-t border-slate-100 bg-white py-10 text-slate-800 dark:border-white/10 dark:bg-slate-950 dark:text-slate-300">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="relative mb-10 overflow-hidden rounded-3xl border border-amber-700/25 bg-gradient-to-br from-slate-900 via-slate-950 to-amber-900/20 p-8 sm:p-12">
+        <div class="relative z-10 grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <p class="mb-4 text-xs font-extrabold uppercase tracking-[3px] text-amber-500">Domain Available for Acquisition</p>
+            <h2 class="heading-serif mb-4 text-3xl tracking-tight text-white sm:text-4xl">sdl.rentals — A Category-Defining Digital Asset</h2>
+            <p class="max-w-xl leading-relaxed text-slate-400">
+              Positioned at the intersection of Scottsdale rental branding, vacation and luxury home
+              markets, and premium local SEO, this domain is a rare strategic asset. Asking $55,000 —
+              serious buyers may inquire for pricing, transfer logistics, and escrow options.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-slate-950/90 p-6 backdrop-blur-xl sm:p-8">
+            <p class="mb-2 text-xs font-semibold uppercase tracking-[2px] text-slate-500">Acquisition Contact</p>
+            <a href={`mailto:${ctaEmail}`} class="block break-all text-2xl font-semibold tracking-tight text-white transition hover:text-amber-400 sm:text-3xl">{ctaEmail}</a>
+            <a href={escrowMailto} data-track="cta-footer-inquire" class="tap-target mt-6 inline-flex w-full items-center justify-center gap-x-2 rounded-2xl bg-gradient-to-r from-amber-600 to-amber-700 px-6 py-4 font-extrabold text-white transition hover:brightness-110">
+              <span>Inquire About Acquisition</span><span aria-hidden="true">→</span>
+            </a>
+            <p class="mt-4 text-center text-[11px] tracking-wide text-slate-500">Confidential inquiries • Response within 24 hours</p>
+          </div>
+        </div>
+      </div>
+      <p class="mb-10 max-w-4xl text-xs leading-relaxed text-slate-500">
+        This website is for demonstration and informational purposes only. It does not constitute an offer
+        of services, a commitment to deploy, or a guarantee of outcomes. All statistics, projections, and
+        references to specific technologies are based on publicly available information as of October 4, 2026
+        and are subject to change.
+      </p>
+      <div class="flex flex-col items-center justify-between gap-y-4 border-t border-slate-100 pt-8 text-xs text-slate-400 md:flex-row dark:border-white/10">
+        <div>© 2026 SDL Domains. All rights reserved. Scottsdale, Arizona. • <a class="hover:underline" href="/faq/">FAQ</a> • <a class="hover:underline" href="/valuation-guide/">Valuation</a></div>
+        <div>Premium vertical domains • Serious buyers only</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-3 backdrop-blur-md md:hidden dark:border-white/10 dark:bg-slate-950/95">
+    <div class="flex gap-2">
+      <a href="#inquire-offer" data-track="cta-sticky-offer" class="tap-target flex flex-1 items-center justify-center rounded-2xl bg-amber-500 text-center text-sm font-bold text-slate-950">Make an Offer</a>
+      <a href={escrowMailto} data-track="cta-sticky-agent" class="tap-target flex flex-1 items-center justify-center rounded-2xl bg-slate-900 text-center text-sm font-semibold text-white dark:bg-white dark:text-slate-900">Contact Agent</a>
+    </div>
+  </div>
+  <div class="h-20 md:hidden" aria-hidden="true"></div>
+
+  <!-- Exit-intent popup: email capture -->
+  <div id="exit-popup" class="hidden fixed inset-0 z-[70] items-center justify-center bg-black/70 p-6 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="exit-heading">
+    <div class="w-full max-w-md rounded-3xl bg-white p-8 text-center dark:bg-slate-900 dark:border dark:border-white/10">
+      <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-2xl" aria-hidden="true">✦</div>
+      <h2 id="exit-heading" class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white">Before you go…</h2>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Get the <strong>SDL.Rentals acquisition brief</strong> — comps, use cases &amp; escrow checklist. Plus first refusal if another offer lands.</p>
+      <form id="exit-form" method="POST" action="/api/subscribe" class="mt-5 space-y-3">
+        <label class="sr-only" for="exit-email">Email address</label>
+        <input id="exit-email" name="email" type="email" required placeholder="you@yourbrand.com"
+          class="tap-target w-full rounded-2xl border border-slate-200 px-5 text-base text-slate-900 dark:border-white/10 dark:bg-slate-950 dark:text-white" />
+        <button type="submit" data-track="cta-exit-capture" class="tap-target w-full rounded-2xl bg-slate-900 py-3.5 text-sm font-semibold text-white dark:bg-white dark:text-slate-900">Send me the brief</button>
+      </form>
+      <p id="exit-success" class="mt-3 hidden text-sm font-medium text-emerald-600">You’re on the list — check your inbox.</p>
+      <button id="exit-close" type="button" class="tap-target mt-3 w-full rounded-2xl border border-slate-200 py-3 text-sm font-semibold dark:border-white/10">No thanks, I’ll risk missing it</button>
+    </div>
+  </div>
+
+  <script is:inline>
+    // Theme: persist + respect OS, default dark (brand hero is dark)
+    (function () {
+      try {
+        var stored = localStorage.getItem("sdl-theme");
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var dark = stored ? stored === "dark" : true;
+        document.documentElement.classList.toggle("dark", dark);
+        if (!stored && !prefersDark) document.documentElement.classList.remove("dark");
+      } catch (e) {}
+    })();
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var root = document.documentElement;
+
+      // Theme toggle
+      var toggle = document.getElementById("theme-toggle");
+      if (toggle) {
+        toggle.addEventListener("click", function () {
+          var dark = !root.classList.contains("dark");
+          root.classList.toggle("dark", dark);
+          try { localStorage.setItem("sdl-theme", dark ? "dark" : "light"); } catch (e) {}
+        });
+      }
+
+      // Mobile menu
+      var btn = document.getElementById("menu-button");
+      var menu = document.getElementById("mobile-menu");
+      if (btn && menu) {
+        btn.addEventListener("click", function () {
+          var open = menu.classList.toggle("hidden");
+          btn.setAttribute("aria-expanded", String(!open));
+          btn.setAttribute("aria-label", open ? "Open menu" : "Close menu");
+        });
+        menu.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            menu.classList.add("hidden");
+            btn.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
+
+      // Scroll reveal
+      try {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); }
+          });
+        }, { threshold: 0.12 });
+        document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+      } catch (e) {
+        document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("is-visible"); });
+      }
+
+      // Urgency: pseudo-live viewer count (stable per day + jitter, capped)
+      try {
+        var key = "sdl-rentals-viewers";
+        var today = new Date().toISOString().slice(0, 10);
+        var raw = JSON.parse(localStorage.getItem(key) || "{}");
+        if (raw.day !== today) {
+          raw = { day: today, base: 21 + Math.floor(Math.random() * 14) };
+          localStorage.setItem(key, JSON.stringify(raw));
+        }
+        var el = document.getElementById("viewer-count");
+        if (el) el.textContent = String(raw.base);
+      } catch (e) {}
+
+      // Portfolio filter + search
+      var filterBtns = Array.prototype.slice.call(document.querySelectorAll(".portfolio-filter"));
+      var search = document.getElementById("portfolio-search");
+      var cards = Array.prototype.slice.call(document.querySelectorAll(".portfolio-card"));
+      var empty = document.getElementById("portfolio-empty");
+      var active = "all";
+      function applyFilter() {
+        var q = (search && search.value || "").toLowerCase().trim();
+        var shown = 0;
+        cards.forEach(function (card) {
+          var cat = (card.getAttribute("data-category") || "");
+          var name = (card.getAttribute("data-name") || "").toLowerCase();
+          var tags = (card.getAttribute("data-tags") || "").toLowerCase();
+          var okCat = active === "all" || cat.indexOf(active) !== -1;
+          var okQ = !q || name.indexOf(q) !== -1 || tags.indexOf(q) !== -1;
+          var show = okCat && okQ;
+          card.style.display = show ? "" : "none";
+          if (show) shown++;
+        });
+        if (empty) empty.classList.toggle("hidden", shown !== 0);
+      }
+      filterBtns.forEach(function (b) {
+        b.addEventListener("click", function () {
+          active = b.getAttribute("data-filter") || "all";
+          filterBtns.forEach(function (x) {
+            var on = x === b;
+            x.setAttribute("aria-pressed", String(on));
+            x.className = "portfolio-filter tap-target rounded-full px-4 text-sm font-medium " + (on
+              ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900"
+              : "border border-slate-200 dark:border-white/15");
+          });
+          applyFilter();
+        });
+      });
+      if (search) search.addEventListener("input", applyFilter);
+
+      // Inquiry form: validate -> POST /api/inquire -> mailto fallback -> success
+      var form = document.getElementById("inquire-offer");
+      if (form) {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var err = document.getElementById("form-error");
+          var ok = document.getElementById("form-success");
+          var submit = document.getElementById("inquiry-submit");
+          if (err) { err.classList.add("hidden"); err.textContent = ""; }
+          if (ok) ok.classList.add("hidden");
+
+          var name = document.getElementById("inquiry-name").value.trim();
+          var email = document.getElementById("inquiry-email").value.trim();
+          var useCase = document.getElementById("inquiry-use").value;
+          var offer = document.getElementById("inquiry-offer").value;
+          var message = document.getElementById("inquiry-message").value.trim();
+
+          function fail(msg) {
+            if (err) { err.textContent = msg; err.classList.remove("hidden"); }
+            return false;
+          }
+          if (name.length < 2) return fail("Please enter your name.");
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail("Please enter a valid email address.");
+          if (!useCase) return fail("Please select the intended use.");
+          if (!offer || Number(offer) < 10000) return fail("Minimum serious offer is $10,000.");
+
+          var original = submit.textContent;
+          submit.textContent = "SENDING…";
+          submit.disabled = true;
+
+          var payload = { name: name, email: email, useCase: useCase, offer: Number(offer), message: message, domain: "sdl.rentals" };
+          fetch("/api/inquire", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }).then(function (r) {
+            return r.ok ? r.json().catch(function(){ return {}; }) : Promise.reject(new Error("api"));
+          }).then(function () {
+            if (ok) ok.classList.remove("hidden");
+            form.reset();
+            track("inquiry_submitted", { offer: payload.offer });
+          }).catch(function () {
+            // Graceful fallback: open mail client with prefilled body
+            var body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\nIntended use: " + useCase + "\nOffer: $" + offer + "\nDetails: " + message);
+            window.location.href = "mailto:sales@desertrich.com?subject=" + encodeURIComponent("SDL.Rentals Acquisition Inquiry — $" + offer) + "&body=" + body;
+            if (ok) ok.classList.remove("hidden");
+          }).finally(function () {
+            submit.textContent = original;
+            submit.disabled = false;
+          });
+        });
+      }
+
+      // Exit-intent (desktop) + timed fallback (mobile, once per 7 days)
+      var popup = document.getElementById("exit-popup");
+      var closed = false;
+      function seenRecently() {
+        try {
+          var t = Number(localStorage.getItem("sdl-rentals-exit-seen") || "0");
+          return Date.now() - t < 7 * 864e5;
+        } catch (e) { return true; }
+      }
+      function markSeen() {
+        try { localStorage.setItem("sdl-rentals-exit-seen", String(Date.now())); } catch (e) {}
+      }
+      function openPopup() {
+        if (closed || !popup || seenRecently()) return;
+        popup.classList.remove("hidden");
+        popup.classList.add("flex");
+        markSeen();
+        track("exit_popup_shown", {});
+      }
+      function closePopup() {
+        if (!popup) return;
+        closed = true;
+        popup.classList.add("hidden");
+        popup.classList.remove("flex");
+      }
+      document.addEventListener("mouseout", function (e) {
+        if (!e.relatedTarget && e.clientY <= 0) openPopup();
+      });
+      setTimeout(function () {
+        if (!closed && "ontouchstart" in window) openPopup();
+      }, 45000);
+      var closeBtn = document.getElementById("exit-close");
+      if (closeBtn) closeBtn.addEventListener("click", closePopup);
+      if (popup) popup.addEventListener("click", function (e) { if (e.target === popup) closePopup(); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePopup(); });
+
+      var exitForm = document.getElementById("exit-form");
+      if (exitForm) {
+        exitForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = document.getElementById("exit-email").value.trim();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return;
+          fetch("/api/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, interest: "sdl.rentals brief" }),
+          }).catch(function () {}).finally(function () {
+            var s = document.getElementById("exit-success");
+            if (s) s.classList.remove("hidden");
+            track("email_captured", {});
+            setTimeout(closePopup, 1600);
+          });
+        });
+      }
+
+      // Lightweight analytics hook (data-track attrs; swap for real pixels)
+      function track(name, data) {
+        try {
+          if (window.plausible) window.plausible(name, { props: data });
+          document.dispatchEvent(new CustomEvent("sdl:track", { detail: { name: name, data: data } }));
+        } catch (e) {}
+      }
+      document.querySelectorAll("[data-track]").forEach(function (el) {
+        el.addEventListener("click", function () {
+          track(el.getAttribute("data-track") || "cta_click", { href: el.getAttribute("href") || "" });
+        });
+      });
+    });
+  </script>
 </BaseLayout>

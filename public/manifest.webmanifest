@@ -1,0 +1,17 @@
+{
+  "name": "sdl.rentals — Premium Domain for Sale",
+  "short_name": "sdl.rentals",
+  "description": "sdl.rentals for sale — premium .rentals domain for Scottsdale vacation, luxury & long-term rentals. Secure escrow transfer. Inquire now — 1 of 1 asset.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "icons": [
+    {
+      "src": "https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/3e5fb84a-7803-415b-daf5-4d21bdcca700/public",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,17 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap");
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
 }
 
 html {
-  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  overflow-x: hidden;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
 }
 
 .heading-serif {
@@ -21,7 +27,7 @@ body {
 }
 
 .domain-name {
-  font-size: clamp(2.5rem, 10vw, 6.5rem);
+  font-size: clamp(3rem, 9vw, 7rem);
   line-height: 1;
   letter-spacing: -0.04em;
 }
@@ -31,15 +37,25 @@ body {
   line-height: 1.1;
 }
 
+/* Tap targets: minimum 48px (mobile-friendliness) */
+.tap-target {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Cards */
 .value-card,
-.market-stat {
+.market-stat,
+.fact-card {
   transition:
     transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s ease;
 }
 
 .value-card:hover,
-.market-stat:hover {
+.market-stat:hover,
+.fact-card:hover {
   transform: translateY(-6px);
   box-shadow:
     0 20px 25px -5px rgb(0 0 0 / 0.08),
@@ -52,4 +68,61 @@ body {
 
 .nav-link:hover {
   color: #b45309;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Focus visibility (keyboard + WCAG) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #b45309;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* FAQ accordion */
+details.faq > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details.faq > summary::-webkit-details-marker {
+  display: none;
+}
+details.faq[open] .faq-chevron {
+  transform: rotate(180deg);
+}
+.faq-chevron {
+  transition: transform 0.25s ease;
 }
